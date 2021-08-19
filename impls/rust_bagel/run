@@ -1,0 +1,4 @@
+#!/bin/bash
+#coppied from the existing Rust implementation in the root make-a-lisp repo
+#
+exec $(dirname $0)/${STEP:-stepA_mal} "${@}"
