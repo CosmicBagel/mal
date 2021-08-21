@@ -4,16 +4,17 @@ version = "0.1.0"
 authors = ["CosmicBagel"]
 
 [dependencies]
+regex = "1.5.4"
 
 
 [[bin]]
 name = "step0_repl"
 path = "step0_repl.rs"
 
-#[[bin]]
-#name = "step1_read_print"
-#path = "step1_read_print.rs"
-#
+[[bin]]
+name = "step1_read_print"
+path = "step1_read_print.rs"
+
 #[[bin]]
 #name = "step2_eval"
 #path = "step2_eval.rs"
