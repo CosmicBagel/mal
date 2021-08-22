@@ -3,3 +3,4 @@ pub enum MalType {
 }
 
 pub type AST = Vec<MalType>;
+pub type BoxedError = Box<dyn std::error::Error>;

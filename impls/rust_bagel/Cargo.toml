@@ -5,6 +5,7 @@ authors = ["CosmicBagel"]
 
 [dependencies]
 regex = "1.5.4"
+lazy_static = "1.4.0"
 
 
 [[bin]]

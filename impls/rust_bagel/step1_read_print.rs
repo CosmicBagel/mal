@@ -1,13 +1,15 @@
+#[macro_use]
+extern crate lazy_static;
+
 mod printer;
 mod reader;
 mod types;
 
 use printer::*;
-use reader::*;
 use std::io::{self, stdin, Write};
-use types::AST;
+use types::{BoxedError, AST};
 
-fn main() -> io::Result<()> {
+fn main() -> Result<(), BoxedError> {
     let mut buf = String::new();
     loop {
         prompt()?;
@@ -27,10 +29,10 @@ fn prompt() -> Result<(), io::Error> {
     Ok(())
 }
 
-fn read(buf: &mut String) -> Result<AST, io::Error> {
+fn read(buf: &mut String) -> Result<AST, BoxedError> {
     stdin().read_line(buf)?;
     //abstract syntax tree time
-    let ast = reader::read_str(buf);
+    let ast = reader::read_str(buf)?;
     Ok(ast)
 }
 

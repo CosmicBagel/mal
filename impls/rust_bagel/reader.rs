@@ -1,30 +1,35 @@
-use std::{iter::Peekable, vec::IntoIter};
+use std::iter::Peekable;
 
 use crate::types::*;
 
-type Tokens<'a> = Peekable<IntoIter<&'a str>>;
+const REGEX_PATTERN: &str =
+    r#"[\s,]*(~@|[\[\]{}()'`~^@]|"(?:\\.|[^\\"])*"?|;.*|[^\s\[\]{}('"`,;)]*)"#;
 
-pub fn read_str(input_str: &str) -> AST {
+lazy_static! {
+    static ref TOKEN_REGEX: regex::Regex = regex::Regex::new(REGEX_PATTERN).unwrap();
+}
+
+// type Tokens =
+
+pub fn read_str(input_str: &str) -> Result<AST, regex::Error> {
     /*
        call tokenize and then create a new Reader object instance with the tokens. Then it
        will call read_form with the Reader instance.
     */
-    let mut tokens = tokenize(input_str);
-    let i = tokens.peek();
+    let tokens = tokenize(input_str);
+    for t in tokens {
+        println!("{:#?}", t);
+    }
     read_from();
-    Vec::new()
+    Ok(Vec::new())
 }
 
-pub fn tokenize(input_str: &str) -> Tokens {
+pub fn tokenize(input_str: &str) -> Peekable<regex::CaptureMatches> {
     /*
         take a single string and return an array/list of all the tokens (strings) in it.
         The following regular expression (PCRE) will match all mal tokens.
     */
-    let mut tokens = Vec::<&str>::new();
-
-    tokens.push("hi");
-
-    tokens.into_iter().peekable()
+    TOKEN_REGEX.captures_iter(input_str).peekable()
 }
 
 pub fn read_from() -> Vec<MalType> {
