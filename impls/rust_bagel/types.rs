@@ -24,9 +24,14 @@ impl fmt::Display for MalType {
             MalType::Nil => write!(f, "Nil"),
             MalType::List(v) => {
                 let mut out = String::new();
-                for e in v {
-                    out.push_str(&e.to_string());
+                out.push('(');
+                for (i, e) in v.iter().enumerate() {
+                    out.push_str(&format!("{}", e));
+                    if i < v.len() - 1 {
+                        out.push(' ');
+                    }
                 }
+                out.push(')');
                 write!(f, "{}", out)
             }
         }

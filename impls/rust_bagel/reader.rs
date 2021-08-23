@@ -57,7 +57,17 @@ pub fn read_list(mut tokens: &mut Tokens) -> MalType {
        read_list repeatedly calls read_form rather than read_atom. This mutually recursive
        definition between read_list and read_form is what allows lists to contain lists.
     */
-    MalType::List(Vec::new())
+    let mut mal_list = Vec::new();
+    tokens.next(); // skip the (
+    while let Some(cap) = tokens.peek() {
+        let t = &cap[1];
+        if t == ")" {
+            break;
+        }
+
+        mal_list.push(read_from(tokens));
+    }
+    MalType::List(mal_list)
 }
 
 pub fn read_atom(tokens: &mut Tokens) -> MalType {
@@ -72,7 +82,7 @@ pub fn read_atom(tokens: &mut Tokens) -> MalType {
         symbol types already).
     */
     if let Some(cap) = tokens.next() {
-        let t = &cap[0];
+        let t = &cap[1];
         if let Ok(int) = t.parse() {
             MalType::Integer(int)
         } else if let Ok(float) = t.parse() {
